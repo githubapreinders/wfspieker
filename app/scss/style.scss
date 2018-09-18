@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css?family=Muli|Slabo|Josefin+Slab');
+
+$mainwindowfont: 'josefin slab';
+$secondaryfont : 'muli';
+
+
+.dropdown-item
+{
+	background:lightgrey;
+	border:1px;
+}
+
+#selectgame
+{
+	border:0px;
+}
+
+.firsttoprow
+{
+	display:flex;
+	height:30px;
+	margin:1%;
+	select
+	{
+		margin-right : 1%;
+	}
+	span
+	{
+		font-family:$secondaryfont;
+		font-size:20px;
+	}
+	.myeditbox
+	{
+		position : absolute;
+	}
+	.myselect
+	{
+		color:blue;
+	}
+	
+}
+
+.mainnav
+{
+	display:flex;
+	width:100%;
+	background:red;
+}
+
+
+.secondtoprow
+{
+	display:flex;
+	height:60px;
+	.newword
+	{
+		font-size:40px;
+		text-transform:uppercase;
+		color:blue;
+		line-height:40px;
+	}
+}
+
+.bottomrow
+{
+	display:flex;
+	margin-top : 1%;
+	button
+	{
+		margin-right:10px;
+	}
+}
+
+
+
+.thekey 
+{
+	font-family:$mainwindowfont;
+	text-transform:uppercase;
+	font-weight:bold;
+	font-size:25px;
+	width:50px;
+	height:50px;
+	border : 1px solid blue;
+	padding:10px;
+}
+
+.thevalue
+{
+	position:absolute;
+	font-size:25px;
+	line-height:50px;
+	font-weight:bold;
+	padding-left:2px;
+	cursor:pointer;
+}
+
+
+
+.mytoprow
+{
+	display:flex;
+	height:30px;
+	padding-top:2%;
+	margin-bottom:20px;
+}
+
+.bootstrapcolumn
+{
+	text-align:center;
+	padding:0px;
+}
+.centerme
+{
+	margin:auto;
+	max-width:100%;
+}
+
+
+
+
+
+.filler
+{
+	flex-grow: 1;
+}
+
+.col-md-3
+{
+	margin-bottom:10px;
+}
+
+.col-xs-3
+{
+	width:24%;
+
+}
+

@@ -1,0 +1,49 @@
+
+	<div class="firsttoprow">
+		
+		 <select id="selectgame" class = "form-control dropdown myselect" ng-model = "vm.thisgame" ng-change = "vm.changeGame(vm.thisgame)" ng-show="vm.pencilclicked === false;" >
+   			<option ng-repeat="game in vm.thegames">{{game}}</option>
+		</select>
+
+		 <span ng-click="vm.pencilclicked = !vm.pencilclicked;vm.givefocus()"><i class="far fa-edit " ></i></span>
+		 
+
+		 <input id='myinputbox' type="text" value={{vm.thisgame}}   class="form-control myeditbox" ng-show="vm.pencilclicked===true;" ng-blur="vm.changeName()"/>
+
+		 <div class="filler"></div>
+
+		 
+
+	</div>
+
+	<div class="secondtoprow">
+		<div class="filler"></div>
+		<span ng-model="vm.newword" class="newword">{{vm.newword}}</span>
+		<div class="filler"></div>
+    </div>
+
+    <div class="centerme">
+	    <div class="row myrow" >
+		    <div class="col-xs-3 col-md-3 col-sm-3 bootstrapcolumn" ng-repeat-start="(key,value) in vm.wordset">
+			        
+			        <button class="btn btn-sm  thekey" ng-class="{'btn-success': vm.parse(value) >  0 ,'btn-default': vm.parse(value) ===  0 }" ng-click="vm.addLetter(key)">{{key}}</button>
+			        <span class="thevalue" >{{value}}</span>
+			        </div>
+		    <div class="clearfix" ng-if="($index+1)%9==0"></div>
+		    <div ng-repeat-end=""></div>
+		</div>
+	</div>
+
+	<div class="bottomrow">
+			<div class="filler"></div>
+		    
+		    <button ng-click="vm.substractletter()" class="btn btn-lg btn-info">  X  </button>
+		    <button ng-click="vm.reset()" class="btn btn-lg btn-info">  Reset  </button>
+		    <button ng-click="vm.submitForm()" class="btn btn-lg btn-info"> Submit Letters </button>
+		    <div class="filler"></div>
+	</div>
+	
+
+     
+
+    	
