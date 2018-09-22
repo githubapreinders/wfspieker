@@ -3,6 +3,9 @@
 $mainwindowfont: 'josefin slab';
 $secondaryfont : 'muli';
 
+$paletteColor1:#666666;
+$paletteColor2:#996666;
+
 
 .dropdown-item
 {
@@ -14,6 +17,8 @@ $secondaryfont : 'muli';
 {
 	border:0px;
 }
+
+
 
 .firsttoprow
 {
@@ -135,4 +140,119 @@ $secondaryfont : 'muli';
 	width:24%;
 
 }
+
+
+.mymodal .modal-dialog
+{
+  border:1px solid grey;
+  border-radius : 4px;
+  position:absolute;
+  
+  
+  #contextmenu 
+  {
+	  	  width: 400px; 
+	  	  height:500px;
+	  	  background: lightgrey;
+	  	  opacity:0.95;
+	  	  
+	  	  display:flex;
+	  	  flex-direction: column;
+	  	  span
+	  	  {
+		  	  	background:$paletteColor1;
+		  	  	margin:5px;
+		  	  	flex-grow:1;
+		  	  	cursor : pointer;
+		  	  	&:hover
+		  	  	{
+		  	  		background : darken($paletteColor1, 10%);
+		  	  	}
+			}
+
+			 .closeButton
+			{
+				position:absolute;
+				left:175px;
+				top:465px;
+				border-radius : 30px;
+				background:$paletteColor1;
+				width:60px;
+				height:60px;
+				text-align:center;
+				font-style:bold;
+				color:white;
+				font-size:35px;
+				border: 1px solid lightgrey;
+				&:hover
+		  	  	{
+		  	  		background : darken($paletteColor1, 10%);
+		  	  	}
+			}
+  }
+
+  #historymenu
+  {
+  	width: 400px; 
+  	  height:500px;
+  	  background: lightgrey;
+  	  opacity:0.95;
+  	  border:1px solid grey;
+  	  border-radius : 4px;
+  	  display:flex;
+  	  flex-direction: column;
+  	  
+  	  span
+  	  {
+  	  	background:$paletteColor1;
+  	  	margin:5px;
+  	  	flex-grow: 1;
+  	  	min-height: 40px;
+  	  	max-height:40px;
+  	  	
+  	  	cursor : pointer;
+  	  	&:hover
+  	  	{
+  	  		background : darken($paletteColor1, 10%);
+  	  	}
+  	  }
+  	  
+
+  	   .closeButton
+		{
+			position:absolute;
+			left:175px;
+			top:465px;
+			border-radius : 30px;
+			background:$paletteColor1;
+			width:60px;
+			height:60px;
+			text-align:center;
+			font-style:bold;
+			color:white;
+			font-size:35px;
+			border: 1px solid lightgrey;
+			&:hover
+	  	  	{
+	  	  		background : darken($paletteColor1, 10%);
+	  	  	}
+		}
+    }
+}
+
+
+.modal-backdrop{display:none;}
+
+
+.fade.in {
+  opacity: 0.95;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+
+}
+
+
 

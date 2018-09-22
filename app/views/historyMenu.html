@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+    
+<div id="historymenu">
+    
+          <span ng-repeat="move in vm3.themoves track by $index"  href="#"
+          ng-click = "vm3.resetMove($index) ; vm2.close()" >{{move}}</span>
+    <div class="closeButton" ng-click="vm3.close()">X</div>
+</div>    

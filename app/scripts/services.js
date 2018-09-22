@@ -28,6 +28,7 @@
                 if(wordset[inputletters.charAt(i)] > 0)
                 wordset[inputletters.charAt(i)]--;
             }
+            wordset['total'] = computeTotal();
             
             return wordset;
         }
@@ -37,11 +38,12 @@
 
           console.log(wordset, inputletters);
           for (var i = 0; i < inputletters.length; i++) 
-            {
-                wordset[inputletters.charAt(i)]++;
-            }
-            console.log(wordset);
-            return wordset;
+          {
+              wordset[inputletters.charAt(i)]++;
+          }
+          wordset['total'] = computeTotal();
+          console.log(wordset);
+          return wordset;
         }
 
         
@@ -81,10 +83,28 @@
                 wordset['y'] = 1;
                 wordset['z'] = 2;
                 wordset['?'] = 2;
+                var thetotal = computeTotal();
+                wordset['total'] = thetotal;
                 staticwords = angular.copy(wordset);
-                console.log(staticwords);
+                console.log(staticwords, "total: ", thetotal);
                 return wordset;
         }
+
+        function computeTotal()
+        {
+          console.log("compute total...");
+          var total = 0 ; 
+          for (var property in wordset) 
+          {
+            if (wordset.hasOwnProperty(property) && 'total' !== property) 
+            {
+              total += wordset[property];
+            }
+          }
+          return total;
+        }  
+
+
 
         function returnWords()
         {

@@ -3,12 +3,13 @@
     'use strict';
 
     angular.module('confab')
-        .controller('IndexController', function ($scope, WordService, StorageFactory )
+        .controller('IndexController', function ($scope, $log, $modal, WordService, StorageFactory )
         {
-            console.log('IndexController...');
+            console.log('IndexController....');
             var vm = this;
             vm.changeGame = changeGame;
             vm.newword='';
+            vm.wordset = null;
             vm.reset = reset;
             vm.resetMove = resetMove;
             vm.changeName = changeName;
@@ -19,18 +20,57 @@
             loadCurrentGame();  
             vm.themoves = StorageFactory.getMoves();
             vm.thegames = StorageFactory.getKeys(); 
-            console.log(vm.themoves);
+            vm.openGamesModal = openGamesModal;
+            vm.openHistoryModal = openHistoryModal;
+            vm.filterTotal = filterTotal;
+        
+            function openGamesModal()
+            {
+              console.log("open games modal...");
+              $modal.open({
+                  template: '<con-menu></con-menu>',
+                  controller:'modalController as vm2',
+                  windowClass: 'mymodal',
+                  animation:false,
+                  resolve:{ controllerscope:function(){return $scope;}}
+              });
+            }
+
+            function openHistoryModal()
+            {
+                console.log("open history modal...");
+                $modal.open({
+                template: '<his-menu></his-menu>',
+                controller:'historyController as vm3',
+                windowClass: 'mymodal',
+                animation:false,
+                resolve:{ controllerscope:function(){return $scope;}}
+              });
+            }
+
             
+            $scope.$watch(function() 
+            {
+                return vm.wordset;
+            }, 
+            function(current, original) 
+            {
+                console.log("changed !");
+            },true);
+            
+
+
+
             //listening to letter/enter/backspace clicks on the keyboard 
             $scope.$on('letterAdded' , function(event, obj)
             {
-                console.log('adding something...', vm.newword);
                 if(vm.pencilclicked)
                 {
                     return;
                 }
                 if(obj.letter === 13)//Enter key
                 {
+                    
                     vm.submitForm(true);
                 }
                 else if(obj.letter === 8)//Backspace key
@@ -42,12 +82,6 @@
                     vm.addLetter(String.fromCharCode(obj.letter).toLowerCase(), true);
                 }
             }); 
-
-            $scope.$watch('vm.wordset', function(oldval, newval)
-            {
-                console.log("wordsest changed...");
-            });
-
 
             function blurelem(index)
             {
@@ -61,7 +95,6 @@
                 vm.thisgame = game;
                 vm.newword = '';
                 vm.wordset = StorageFactory.switchKey(game);
-                //change history set
                 vm.themoves = StorageFactory.getMoves();
                 var el = document.getElementById('myinputbox');
                 el.value = vm.thisgame;
@@ -99,7 +132,6 @@
                     if(val === value)
                     {
                         double = true;
-                        console.log('double' , double);
                     }
                 });
                 return double;
@@ -129,7 +161,6 @@
             {
                 var theslot = StorageFactory.getGetter(vm.thisgame)();
                 StorageFactory.getSetter(theslot)(WordService.fillWords());
-                console.log('slot' + StorageFactory.getCurrentKey() + '_moves');
                 StorageFactory.getSetter('slot' + (StorageFactory.getCurrentKey() + 1) + '_moves')("");
                 vm.wordset = StorageFactory.getGetter(StorageFactory.getGetter(vm.thisgame)())();
                 vm.themoves = StorageFactory.getMoves();
@@ -143,7 +174,6 @@
 
             vm.addLetter = function(letter , fromdirective)
             {
-                console.log("addletter" , letter);
                 if(isPossibleToAdd(letter))
                 {
                     vm.newword += letter;
@@ -179,7 +209,6 @@
                 vm.wordset = WordService.substractLetters(vm.newword);
                 StorageFactory.getSetter(StorageFactory.getGetter(vm.thisgame)())(vm.wordset);
                 vm.themoves = StorageFactory.addMove(vm.newword);
-                console.log("submitting", vm.themoves);
                 vm.newword = ''; 
                 if(fromdirective)
                 {
@@ -201,16 +230,17 @@
 
             vm.addToSet = function(key)
             {
-                console.log(key,' : ',vm.wordset[key]);
                 if(WordService.getstaticwords()[key] === vm.wordset[key])//if we go above the maximum amount of a letter
                 {
                     console.log("exiting...")
                     return;
                 }
                 StorageFactory.substractLetter(key);
-                vm.wordset[key] +=1;
+                
+                vm.wordset = WordService.addLetters(key);
+                //vm.wordset[key] +=1;
+                
                 vm.themoves = StorageFactory.getMoves();
-                console.log(key,' : ',vm.wordset[key]);
                 StorageFactory.getSetter(StorageFactory.getGetter(vm.thisgame)())(vm.wordset);
             };
 
@@ -219,8 +249,64 @@
                 vm.wordset = StorageFactory.resetMove(index);
                 vm.themoves = StorageFactory.getMoves();
             }
+
+            function filterTotal(items) 
+            {
+                var result = {};
+                angular.forEach(items, function(value, key) 
+                {
+                    if (key !== 'total') 
+                    {
+                        result[key] = value;
+                    }
+                });
+                return result;
+            }
+
             
+        })
+
+        .controller('modalController', function($scope, $modalInstance, controllerscope, StorageFactory, WordService)
+        {
+            var vm2 = this;
+            vm2.thisgame = controllerscope.vm.thisgame;
+            vm2.thegames = controllerscope.vm.thegames;
+            vm2.changeGame = changeGame;
+            vm2.close = close;
+
+            function changeGame(game)
+            {
+                controllerscope.vm.changeGame(game);
+
+            }
+
+            function close()
+            {
+                $modalInstance.close('cancel');
+            };
+        })
+
+        .controller('historyController', function($scope, $modalInstance, controllerscope, StorageFactory, WordService)
+        {
+            var vm3 = this;
+            vm3.themoves = controllerscope.vm.themoves;
+            vm3.resetMove = resetMove;
+            vm3.close = close;
+
+            function resetMove(index)
+            {
+                controllerscope.vm.resetMove(index);
+                close();
+            }
+
+            function close()
+            {
+                $modalInstance.close('cancel');
+            }
         });
+
+        
+
 
 })();
 

@@ -98,3 +98,100 @@
 
 .col-xs-3 {
   width: 24%; }
+
+.mymodal .modal-dialog {
+  border: 1px solid grey;
+  border-radius: 4px;
+  position: absolute; }
+  .mymodal .modal-dialog #contextmenu {
+    width: 400px;
+    height: 500px;
+    background: lightgrey;
+    opacity: 0.95;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    .mymodal .modal-dialog #contextmenu span {
+      background: #666666;
+      margin: 5px;
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      cursor: pointer; }
+      .mymodal .modal-dialog #contextmenu span:hover {
+        background: #4d4d4d; }
+    .mymodal .modal-dialog #contextmenu .closeButton {
+      position: absolute;
+      left: 175px;
+      top: 465px;
+      border-radius: 30px;
+      background: #666666;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      font-style: bold;
+      color: white;
+      font-size: 35px;
+      border: 1px solid lightgrey; }
+      .mymodal .modal-dialog #contextmenu .closeButton:hover {
+        background: #4d4d4d; }
+  .mymodal .modal-dialog #historymenu {
+    width: 400px;
+    height: 500px;
+    background: lightgrey;
+    opacity: 0.95;
+    border: 1px solid grey;
+    border-radius: 4px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    .mymodal .modal-dialog #historymenu span {
+      background: #666666;
+      margin: 5px;
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      min-height: 40px;
+      max-height: 40px;
+      cursor: pointer; }
+      .mymodal .modal-dialog #historymenu span:hover {
+        background: #4d4d4d; }
+    .mymodal .modal-dialog #historymenu .closeButton {
+      position: absolute;
+      left: 175px;
+      top: 465px;
+      border-radius: 30px;
+      background: #666666;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      font-style: bold;
+      color: white;
+      font-size: 35px;
+      border: 1px solid lightgrey; }
+      .mymodal .modal-dialog #historymenu .closeButton:hover {
+        background: #4d4d4d; }
+
+.modal-backdrop {
+  display: none; }
+
+.fade.in {
+  opacity: 0.95; }
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0); }

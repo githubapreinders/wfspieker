@@ -1,40 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   
 <span ng-click="vm.pencilclicked = !vm.pencilclicked;vm.givefocus()"><i class="far fa-edit " ></i></span>
-  <div style="width:10%;border:grey;"></div>
-  <span ng-show="!vm.pencilclicked">{{vm.thisgame}}</span>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="filler"></div>
+  <span ng-show="!vm.pencilclicked" ng-click="vm.openGamesModal()" >{{vm.thisgame}}</span>
+  
+  
   
      <input id='myinputbox' type="text" value={{vm.thisgame}}   class="form-control myeditbox" ng-show="vm.pencilclicked===true;" ng-blur="vm.changeName()"/>
 
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        </a>
-        <div id="selectgame" class = "form-control dropdown-menu myselect" ng-model = "vm.thisgame" ng-show="vm.pencilclicked === false;" aria-labelledby="navbarDropdownMenuLink">
-          <a ng-repeat="game in vm.thegames" class="dropdown-item" href="#"
-          ng-click = "vm.changeGame(game)" >{{game}}</a>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <div class="filler"></div>
 
-  <div class="collapse navbar-collapse" id="navbarMovesDropdown">
-        <span>history</span>
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarMovesLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        </a>
-        <div id="selectmove" class = "form-control dropdown-menu myselect" ng-model = "vm.themoves[vm.themoves.length-1]" ng-show="vm.pencilclicked === false;" aria-labelledby="navbarMovesLink">
-          <a ng-repeat="move in vm.themoves track by $index" class="dropdown-item" href="#" ng-click = "vm.resetMove($index)"
-           >{{move}}</a>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <span ng-click="vm.openHistoryModal()"><i class="fa fa-history" ></i></span>
   
 
  </nav>
@@ -47,7 +23,7 @@
 
     <div class="centerme">
       <div class="row myrow" >
-        <div class="col-xs-3 col-md-3 col-sm-3 bootstrapcolumn" ng-repeat-start="(key,value) in vm.wordset">
+        <div class="col-xs-3 col-md-3 col-sm-3 bootstrapcolumn" ng-repeat-start="(key,value) in vm.filterTotal(vm.wordset) ">
               
               <button id="button{{$index}}" class="btn btn-sm  thekey" ng-class="{'btn-success': vm.parse(value) >  0 ,'btn-default': vm.parse(value) ===  0 }" ng-click="vm.addLetter(key);vm.blurelem($index)">{{key}}</button>
               <span class="thevalue" ng-click="vm.addToSet(key)" >{{value}}</span>
@@ -64,6 +40,9 @@
         <button ng-click="vm.substractletter()" class="btn btn-lg btn-info">  X  </button>
         <button ng-click="vm.reset()" class="btn btn-lg btn-info">  Reset  </button>
         <button ng-click="vm.submitForm()" class="btn btn-lg btn-info"> Submit Letters </button>
+        <span>total: {{vm.wordset['total']}}</span>
+        
+
 
         
 
