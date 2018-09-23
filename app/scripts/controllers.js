@@ -9,9 +9,11 @@
             var vm = this;
             vm.changeGame = changeGame;
             vm.newword='';
+            vm.newword_shadow=[];
             vm.wordset = null;
             vm.reset = reset;
             vm.resetMove = resetMove;
+            vm.changeletterset = changeletterset;
             vm.changeName = changeName;
             vm.givefocus = givefocus;
             vm.blurelem = blurelem;
@@ -24,6 +26,13 @@
             vm.openHistoryModal = openHistoryModal;
             vm.filterTotal = filterTotal;
         
+            function changeletterset(index)
+            {
+                vm.newword_shadow[index].blurred = !(vm.newword_shadow[index].blurred); 
+                console.log("helper: ", vm.newword_shadow[index]);
+            }    
+
+
             function openGamesModal()
             {
               console.log("open games modal...");
@@ -49,13 +58,15 @@
             }
 
             
+            //example of model in the ...as vm notation
             $scope.$watch(function() 
             {
-                return vm.wordset;
+                return vm.newword;
             }, 
             function(current, original) 
             {
-                console.log("changed !");
+                console.log("changed vm.newword!", current);
+                
             },true);
             
 
@@ -70,6 +81,7 @@
                 }
                 if(obj.letter === 13)//Enter key
                 {
+                    console.log("enter keyy.....");
                     
                     vm.submitForm(true);
                 }
@@ -162,9 +174,11 @@
                 var theslot = StorageFactory.getGetter(vm.thisgame)();
                 StorageFactory.getSetter(theslot)(WordService.fillWords());
                 StorageFactory.getSetter('slot' + (StorageFactory.getCurrentKey() + 1) + '_moves')("");
+                StorageFactory.getSetter('slot' + (StorageFactory.getCurrentKey() + 1) + '_shadowmoves')("");
                 vm.wordset = StorageFactory.getGetter(StorageFactory.getGetter(vm.thisgame)())();
                 vm.themoves = StorageFactory.getMoves();
                 vm.newword = '';
+                vm.newword_shadow = [];
             }
 
             vm.parse = function(value)
@@ -177,6 +191,8 @@
                 if(isPossibleToAdd(letter))
                 {
                     vm.newword += letter;
+                    vm.newword_shadow.push({letter:letter, blurred : false});
+                    console.log(vm.newword_shadow);
                     if(fromdirective)
                     {
                         $scope.$apply();
@@ -206,10 +222,25 @@
                 {
                     return;
                 }
-                vm.wordset = WordService.substractLetters(vm.newword);
+                var helper = "";
+                vm.newword_shadow.forEach(function(item)
+                {
+                    if(!(item.blurred) )
+                    {
+                        helper += item.letter;
+                    }
+                });
+                if(helper === '')
+                {
+                    vm.newword = '';
+                    vm.newword_shadow=[];
+                    return;
+                }
+                vm.wordset = WordService.substractLetters(helper);
                 StorageFactory.getSetter(StorageFactory.getGetter(vm.thisgame)())(vm.wordset);
-                vm.themoves = StorageFactory.addMove(vm.newword);
+                vm.themoves = StorageFactory.addMove(helper, vm.newword );
                 vm.newword = ''; 
+                vm.newword_shadow = [];
                 if(fromdirective)
                 {
                     $scope.$apply();
@@ -221,6 +252,7 @@
                 if(vm.newword.length > 0)
                 {
                     vm.newword = vm.newword.substring(0,vm.newword.length-1);
+                    vm.newword_shadow.splice(vm.newword_shadow.length -1, 1);
                 }
                 if(fromdirective)//
                 {
@@ -228,6 +260,7 @@
                 }
             };
 
+            //add a letter by clicking on the icon
             vm.addToSet = function(key)
             {
                 if(WordService.getstaticwords()[key] === vm.wordset[key])//if we go above the maximum amount of a letter

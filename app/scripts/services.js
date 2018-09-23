@@ -178,6 +178,12 @@
           getSetter("slot4_moves")("");
           getSetter("slot5_moves")("");
 
+          getSetter("slot1_shadowmoves")("");
+          getSetter("slot2_shadowmoves")("");
+          getSetter("slot3_shadowmoves")("");
+          getSetter("slot4_shadowmoves")("");
+          getSetter("slot5_shadowmoves")("");
+
         }
 
           thekeys = createKeys(); 
@@ -193,30 +199,49 @@
         movesstring = movesstring.replace(/,,/g,',');
         movesstring = movesstring.replace(/,$/g,'');
         getSetter(akey)(movesstring);
+
+        var akeyshadow = 'slot' + (currentKey + 1) + '_shadowmoves';
+        var movesstringshadow =getGetter(akeyshadow)();
+        movesstringshadow = movesstringshadow.slice(0, movesstringshadow.indexOf(letter)) + movesstringshadow.slice(movesstringshadow.indexOf(letter) + 1 , movesstringshadow.length)
+        movesstringshadow = movesstringshadow.replace(/,,/g,',');
+        movesstringshadow = movesstringshadow.replace(/,$/g,'');
+        getSetter(akeyshadow)(movesstringshadow);
+
       }
 
 
-      function addMove(word)
+      function addMove(word, shadowword)
       {
         var akey = 'slot' + (currentKey + 1) + '_moves';
-        console.log(currentKey, akey );
+        var akeyshadow = 'slot' + (currentKey + 1) + '_shadowmoves';
+        console.log(currentKey, akey , akeyshadow);
         var movesstring =getGetter(akey)();
+        var shadowmovesstring =getGetter(akeyshadow)();
         
                 
         var movesarray = movesstring.split(',');
+        var movesarrayshadow = shadowmovesstring.split(',');
 
         
         if(movesarray[0].length===0)
         {
           movesarray=[];
         }
+        if(movesarrayshadow[0].length===0)
+        {
+          movesarrayshadow=[];
+        }
+
+
 
         movesarray.push(word); 
+        movesarrayshadow.push(shadowword);
         //console.log(movesarray);
         
         getSetter(akey)(movesarray.join());
+        getSetter(akeyshadow)(movesarrayshadow.join());
 
-        return getGetter(akey)().split(',');
+        return getGetter(akeyshadow)().split(',');
 
       }
 
@@ -234,14 +259,21 @@
         getSetter(akey)(newwordset);//storing new wordset in memory
         
         console.log("resetting...to : ", result, tosubstract, newwordset);
-
         getSetter(akey + '_moves')(result.toString());//storing updated history in memory
+        
+
+        var movesstringshadow =getGetter(akey + '_shadowmoves')();
+        newarray = movesstringshadow.split(',');
+        result = newarray.slice(0, index);
+        getSetter(akey + '_shadowmoves')(result.toString());//storing updated history in memory
+        
+
         return newwordset;
       }
 
       function getMoves()
       {
-        var akey = 'slot' + (currentKey + 1) + '_moves';
+        var akey = 'slot' + (currentKey + 1) + '_shadowmoves';
         var movesstring = getGetter(akey)();
         console.log(movesstring);
         return movesstring.split(',');

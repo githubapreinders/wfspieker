@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg  bg-light">
   
 <span ng-click="vm.pencilclicked = !vm.pencilclicked;vm.givefocus()"><i class="far fa-edit " ></i></span>
   <div class="filler"></div>
@@ -17,7 +17,8 @@
 
  <div class="secondtoprow">
     <div class="filler"></div>
-    <span ng-model="vm.newword" id="newword" class="newword">{{vm.newword}}</span>
+    <!-- <span ng-model="vm.newword" id="newword" class="newword">{{vm.newword}}</span> -->
+    <span class="newword" ng-repeat="(key,value) in vm.newword_shadow track by $index" ng-click="vm.changeletterset($index)" ng-class="{newwordblurred:vm.newword_shadow[$index].blurred}" >{{value.letter}}</span>
     <div class="filler"></div>
     </div>
 
@@ -40,7 +41,7 @@
         <button ng-click="vm.substractletter()" class="btn btn-lg btn-info">  X  </button>
         <button ng-click="vm.reset()" class="btn btn-lg btn-info">  Reset  </button>
         <button ng-click="vm.submitForm()" class="btn btn-lg btn-info"> Submit Letters </button>
-        <span>total: {{vm.wordset['total']}}</span>
+        <span class="total">{{vm.wordset['total']}}</span>
         
 
 
