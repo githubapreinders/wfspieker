@@ -11,6 +11,7 @@
   <div class="filler"></div>
 
   <span ng-click="vm.openHistoryModal()"><i class="fa fa-history" ></i></span>
+  &nbsp;&nbsp;<a ui-sref="app.wordfinder"><span ><i class="fa fa-list"></i></span></a>
   
 
  </nav>
@@ -41,7 +42,7 @@
         <button ng-click="vm.substractletter()" class="btn btn-lg btn-info">  X  </button>
         <button ng-click="vm.reset()" class="btn btn-lg btn-info">  Reset  </button>
         <button ng-click="vm.submitForm()" class="btn btn-lg btn-info"> Submit Letters </button>
-        <span class="total">{{vm.wordset['total']}}</span>
+        <span class="total">{{vm.wordset['total']-14}}</span>
         
 
 

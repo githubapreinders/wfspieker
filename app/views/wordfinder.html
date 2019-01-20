@@ -1,0 +1,22 @@
+<h1>De woordenlijst</h1>
+<br>
+<div  style="display:flex; flex-direction: row;width:100%;" >
+<a href="" style="padding-left:10px;" ng-click="vm.togglelist()">{{vm.listtype}}</a>
+
+	<div class="filler"/>
+<input id="filterbox" class="form-control" style="width:350px;" type="text" ng-model="vm.inputbox" placeholder="type  letter..."/>
+<div class="filler"/>
+<a ui-sref="app" style="padding-right:10px;"><span ><i class="fa fa-home"></i></span></a>
+</div>
+<br>
+
+<div class="centerme">
+	    <div class="row myrow" >
+		    <div class="col-xs-3 col-md-3 col-sm-3 bootstrapcolumn" ng-repeat-start="word in vm.wordlistfiltered">
+			        
+			        <button class="btn btn-sm btn-success thekey thekeysmaller">{{word}}</button>
+			        </div>
+		    <div class="clearfix" ng-if="($index+1)%9==0"></div>
+		    <div ng-repeat-end=""></div>
+		</div>
+</div>

@@ -17,8 +17,39 @@
             substractLetters : substractLetters,
             setWords : setWords,
             getstaticwords : getstaticwords,
-            addLetters : addLetters
+            addLetters : addLetters,
+            getWordlist : getWordlist
         };
+
+        function getWordlist(listtype)
+        {
+          console.log("toggle...",listtype);
+          switch(listtype)
+          {
+            case "2LW" :
+            {
+              // console.log("toggle...",listtype);
+              return $http.get('../media/twoletterwords.json').then(function (list)
+              {
+                return list.data['thelist'];
+              });
+              break;
+            }
+            case "3LW" :
+            {
+              // console.log("toggle...",listtype);
+              return $http.get('../media/threeletterwords.json').then(function (list)
+              {
+                return list.data['thelist'];
+              });
+              break;
+            }
+          }
+
+
+
+          
+        }
         
         function substractLetters(inputletters)
         {
@@ -139,12 +170,9 @@
         switchKey : switchKey,
         setCurrentKey : setCurrentKey,
         getCurrentKey : getCurrentKey,
-        getNewSlotname : getNewSlotname,
         initialise : initialise,
         deleteAll : deleteAll,
-        changeKeys : changeKeys,
         getListOfFiles : getListOfFiles,
-        changeAlias : changeAlias,
         getKeys : getKeys,
         addMove : addMove,
         resetMove : resetMove,
@@ -275,9 +303,8 @@
       {
         var akey = 'slot' + (currentKey + 1) + '_shadowmoves';
         var movesstring = getGetter(akey)();
-        console.log(movesstring);
+        console.log("currentkey,moves: ", akey," : ", movesstring);
         return movesstring.split(',');
-
       }
 
 
@@ -336,30 +363,6 @@
         return files;
       }
 
-      function changeKeys(oldname, newname)
-      {
-        //console.log(oldname , newname,"\n", thekeys, currentKey, "\n");
-        var index = -1;
-        var islocked = "";
-        for(var i= 0 ; i< thekeys.length ; i++)
-        {
-          if(thekeys[i].title === oldname)
-          {
-            index = i;
-            islocked = thekeys[i].isLocked;
-          }
-        }
-        if(index !== -1)
-        {
-          if(currentKey.title === oldname)
-          {
-            currentKey.title = newname;
-          }
-          thekeys[index].title = newname;
-        }
-        console.log("after change: ", thekeys,"\n", currentKey, "\n");
-      }
-
       function deleteAll()
       {
         var keys = storage.getKeys();
@@ -372,15 +375,6 @@
         });
       }
 
-      // function switchKey()
-      // {
-      //     var helper = thekeys.shift();
-      //     thekeys.push(helper);
-      //     currentKey = thekeys[0];
-      //     return thekeys[0];
-      // }
-
-      //remove from keys array
       function removeKey(itsAlias)
       {
         var index;
@@ -397,36 +391,6 @@
         {
           currentKey = thekeys[0];
         }
-      }
-
-      //responding to the add new file button in the file browser;we just add the xml-declaration as its contents
-      function getNewSlotname(createdAlias, theid)
-      {
-        //console.log("id ", theid);
-        var newslotname = "slot" + Math.ceil(Math.random()*1000);
-        var theobject = { "title" : createdAlias, "isLocked" : false };
-        thekeys.push(theobject);
-        getSetter(newslotname)('<?xml version="1.0" encoding="UTF-8"?>');
-        getSetter(createdAlias)(newslotname);
-        var helper = getGetter("myslots")();
-        helper[theid] = theobject;
-        getSetter("myslots")(helper);
-        return newslotname;
-      }
-
-      function changeAlias(newname , oldname)
-      {
-        if(newname === oldname)
-        {
-          return;
-        }
-        var slotname = getGetter(oldname)();
-        getSetter(newname)(slotname);
-        getSetter (oldname)();
-        thekeys.splice(thekeys.indexOf(oldname),1);
-        thekeys.push(newname);
-        setCurrentKey(thekeys.indexOf(newname));
-        return newname;
       }
 
 
