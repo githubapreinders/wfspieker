@@ -19,9 +19,9 @@
             vm.blurelem = blurelem;
             vm.pencilclicked = false;
             StorageFactory.initialise(WordService.fillWords());
-            loadCurrentGame();  
+            loadCurrentGame();
             vm.themoves = StorageFactory.getMoves();
-            vm.thegames = StorageFactory.getKeys(); 
+            vm.thegames = StorageFactory.getKeys();
             vm.openGamesModal = openGamesModal;
             vm.openHistoryModal = openHistoryModal;
             vm.filterTotal = filterTotal;
@@ -288,7 +288,7 @@
                 var result = {};
                 angular.forEach(items, function(value, key) 
                 {
-                    if (key !== 'total') 
+                    if (key !== 'total' && key !== 'vowels' && key !== 'consonants') 
                     {
                         result[key] = value;
                     }

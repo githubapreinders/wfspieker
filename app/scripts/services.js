@@ -8,6 +8,8 @@
     {
         var staticwords;
         var wordset;
+        var thevowels=['a','e','i','o','u'];
+        var theconsonants=['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
         console.log('WordService') ;
 
         return {
@@ -26,12 +28,27 @@
             {
                 //console.log(wordset[inputletters.charAt(i)] , wordset[inputletters.charAt(i)]);
                 if(wordset[inputletters.charAt(i)] > 0)
-                wordset[inputletters.charAt(i)]--;
+                {
+                  wordset[inputletters.charAt(i)]--;
+                  if(thevowels.includes(inputletters.charAt(i)))
+                  {
+                    console.log('found vowel: ', inputletters.charAt(i));
+                    wordset['vowels']--;
+                  }
+                  if(theconsonants.includes(inputletters.charAt(i)))
+                  {
+                    console.log('found consonant: ', inputletters.charAt(i));
+                    wordset['consonants']--;
+                  }
+                }
             }
             wordset['total'] = computeTotal();
             
             return wordset;
         }
+
+        
+
 
         function addLetters(inputletters)
         {
@@ -85,6 +102,8 @@
                 wordset['?'] = 2;
                 var thetotal = computeTotal();
                 wordset['total'] = thetotal;
+                wordset['vowels']= 38;
+                wordset['consonants'] = 64;
                 staticwords = angular.copy(wordset);
                 console.log(staticwords, "total: ", thetotal);
                 return wordset;
@@ -96,7 +115,7 @@
           var total = 0 ; 
           for (var property in wordset) 
           {
-            if (wordset.hasOwnProperty(property) && 'total' !== property) 
+            if (wordset.hasOwnProperty(property) && 'total' !== property && 'vowels' !== property && 'consonants' !== property) 
             {
               total += wordset[property];
             }
@@ -104,7 +123,7 @@
           return total;
         }  
 
-
+ 
 
         function returnWords()
         {
