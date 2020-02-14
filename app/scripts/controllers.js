@@ -25,7 +25,40 @@
             vm.openGamesModal = openGamesModal;
             vm.openHistoryModal = openHistoryModal;
             vm.filterTotal = filterTotal;
+
+            vm.wordlist=[];
+            vm.wordlistfiltered=[];
+            vm.inputbox='';
+            vm.listtype="2LW"
+            vm.togglelist = togglelist;
         
+            getWordlist();
+
+
+
+            function getWordlist()
+            {
+                WordService.getWordlist(vm.listtype).then(function(thelist)
+                {
+                    vm.wordlist = thelist;
+                    vm.wordlistfiltered = thelist;
+                });
+            }
+
+            function togglelist()
+            {
+                if(vm.listtype==="2LW")
+                {
+                    vm.listtype="3LW";
+                    getWordlist();
+                }
+                else
+                {
+                    vm.listtype="2LW";
+                    getWordlist();  
+                }
+            }
+
             function changeletterset(index)
             {
                 vm.newword_shadow[index].blurred = !(vm.newword_shadow[index].blurred); 
@@ -61,17 +94,21 @@
             //example of model in the ...as vm notation
             $scope.$watch(function() 
             {
-                return vm.newword;
+                return vm.inputbox;
             }, 
             function(current, original) 
             {
-                console.log("changed vm.newword!", current);
-                
+                vm.wordlistfiltered=[];
+                vm.wordlist.forEach(function(word)
+                {
+                    if(word.includes(current))
+                    {
+                        vm.wordlistfiltered.push(word);
+                    }
+                });
             },true);
+
             
-
-
-
             //listening to letter/enter/backspace clicks on the keyboard 
             $scope.$on('letterAdded' , function(event, obj)
             {
@@ -112,7 +149,7 @@
                 el.value = vm.thisgame;
                 vm.pencilclicked = false;
                 console.log("changed to " , vm.thisgame ," : ", vm.wordset, vm.themoves);
-                console.log("current key: ", StorageFactory.getCurrentKey());
+                console.log("changed to: ", StorageFactory.getCurrentKey(), StorageFactory.getKeys());
             }
 
 
@@ -129,9 +166,11 @@
                     var slot = StorageFactory.getGetter(vm.thisgame)(); //get the real slotname
                     StorageFactory.getSetter(el.value)(slot); //create a new slot : newslotname - realslotname
                     StorageFactory.getSetter(vm.thisgame)(); //delete the old slot
-                    vm.thegames.splice(vm.thegames.indexOf(vm.thisgame),1);//delete old value from the dropdown
-                    vm.thegames.push(el.value);//add the new value to the dropdown.
+                    vm.thegames.splice(vm.thegames.indexOf(vm.thisgame),1, el.value);//delete old value from the dropdown
+                    //vm.thegames.push(el.value);//add the new value to the dropdown.
                     vm.thisgame = el.value;
+                    vm.themoves = StorageFactory.getMoves();
+                    console.log("changed to :",vm.themoves, vm.thisgame, StorageFactory.getCurrentKey(),StorageFactory.getKeys());
                 }
                 console.log(vm.thegames);
             }  
@@ -192,7 +231,7 @@
                 {
                     vm.newword += letter;
                     vm.newword_shadow.push({letter:letter, blurred : false});
-                    console.log(vm.newword_shadow);
+                    //console.log(vm.newword_shadow);
                     if(fromdirective)
                     {
                         $scope.$apply();
@@ -336,11 +375,16 @@
             {
                 $modalInstance.close('cancel');
             }
+        })
+        .filter('myfilter', function()
+        {   
+            //console.log(item);
+            return function(item)
+            {
+                return item;
+            };
         });
-
         
-
-
 })();
 
 

@@ -18,6 +18,15 @@ app.config(function ($stateProvider, $urlRouterProvider)
                 }
             }
         })
+        .state('app.wordfinder', {
+            url: '/wordfinder',
+            views: {
+                'content@': {
+                    templateUrl: 'views/wordfinder.html',
+                    controller: 'IndexController as vm'
+                }
+            }
+        })
     ;
     $urlRouterProvider.otherwise('/');
 })
