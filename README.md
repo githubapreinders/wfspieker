@@ -7,4 +7,6 @@ Adding more stuff
 
 Jan is nu klaar
 
+Taak 18 fixen 
+
 
