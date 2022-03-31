@@ -13,4 +13,6 @@ Taak 22 fiksen
 
 En nu taak 24!
 
+Goed bezig, taak 25 nu ook
+
 
