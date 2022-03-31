@@ -9,4 +9,6 @@ Jan is nu klaar
 
 Taak 18 fixen 
 
+Taak 22 fiksen
+
 
