@@ -4,7 +4,7 @@
   "description": "portfolio website for me",
   "main": "index.html",
   "dependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "browser-sync": "^2.11.1",
     "del": "^2.2.0",
     "gulp-cache": "^0.4.2",
